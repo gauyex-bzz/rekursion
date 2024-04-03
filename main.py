@@ -2,19 +2,22 @@ import os
 import csv
 
 
-def list_files(startpath):
+def list_files(startpath, extension=None):
     file_list = []
     for root, dirs, files in os.walk(startpath):
         for filename in files:
-            filepath = os.path.join(root, filename)
-            size = os.path.getsize(filepath)
-            file_list.append((filepath, size, filename))
+            if filename.endswith(extension):
+                filepath = os.path.join(root, filename)
+                size = os.path.getsize(filepath)
+                file_list.append((filepath, size, filename))
     return file_list
 
 
 def quicksort(file_list):
-    for i in range(len(file_list)):
-        pivot = (file_list[i])
+    if len(file_list) <= 1:
+        return file_list
+    else:
+        pivot = file_list[len(file_list) // 2]
         left = []
         right = []
         equal = []
@@ -24,16 +27,18 @@ def quicksort(file_list):
                 left.append(filename)
             elif filename > pivot:
                 right.append(filename)
-            elif filename == pivot:
+            else:
                 equal.append(filename)
-            file_list = left + equal + right
-        return file_list
+
+        return quicksort(left) + equal + quicksort(right)
 
 
 def main():
     c_drive_path = 'C:\\Program Files\Rockstar Games'
+    extension = input("Enter the file extension (e.g., .docx, .txt): ")
+    files = list_files(c_drive_path, extension)
 
-    files = list_files(c_drive_path)
+    file_list = quicksort(files)
 
     with open('c.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile, delimiter=';')
@@ -42,3 +47,7 @@ def main():
             writer.writerow(file_info)
 
     print("File Created")
+
+
+if __name__ == "__main__":
+    main()
