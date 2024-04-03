@@ -1,5 +1,8 @@
 import os
 import csv
+import sys
+
+sys.setrecursionlimit(150000)
 
 
 def list_files(startpath, extension=None):
