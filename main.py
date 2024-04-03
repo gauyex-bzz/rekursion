@@ -34,8 +34,8 @@ def quicksort(file_list):
 
 
 def main():
-    c_drive_path = 'C:\\Program Files\Rockstar Games'
-    extension = input("Enter the file extension (e.g., .docx, .txt): ")
+    c_drive_path = 'C:\\'
+    extension = input("Enter filetype (e.g. .txt)")
     files = list_files(c_drive_path, extension)
 
     file_list = quicksort(files)
